@@ -1,0 +1,14 @@
+[package]
+name = "tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "double_to_stdout"
+
+[[bin]]
+name = "double_to_stderr"
+
+[dependencies]
+raw-stdio = { path = "../raw-stdio" }

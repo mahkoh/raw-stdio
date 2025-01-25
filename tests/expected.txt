@@ -1,0 +1,8 @@
+before raw
+abcd
+語
+defg
+abcd
+語
+defg
+after raw

@@ -1,0 +1,51 @@
+name: unit-tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  doc-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test
+        run: |
+          cargo test
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test
+        run: |
+          cd tests
+          cargo build
+          cat input.txt | ../target/debug/double_to_stdout > actual.txt
+          diff actual.txt expected.txt
+          cat input.txt | ../target/debug/double_to_stderr 2> actual.txt
+          diff actual.txt expected.txt
+          cat input.txt | ../target/debug/double_to_stdout
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd tests
+          cargo build
+      - name: Test
+        shell: bash
+        run: |
+          cd tests
+          cat input.txt | ../target/debug/double_to_stdout > actual.txt
+          dos2unix actual.txt
+          diff actual.txt expected.txt
+          cat input.txt | ../target/debug/double_to_stderr 2> actual.txt
+          dos2unix actual.txt
+          diff actual.txt expected.txt
+          cat input.txt | ../target/debug/double_to_stdout
